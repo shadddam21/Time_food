@@ -7,6 +7,12 @@
 
     <title>{{ config('app.name', 'TimeFood') }} - Restoran</title>
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -24,19 +30,24 @@
         </div>
 
         <nav class="flex-1 px-4 py-6 space-y-2">
-            <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-gauge-high w-5 text-center"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('foods.index') }}" class="flex items-center px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('foods.*') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+            <a href="{{ route('foods.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('foods.*') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-utensils w-5 text-center"></i>
                 <span>Kelola Makanan</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg transition-colors text-slate-300 hover:bg-slate-800 hover:text-white">
+            <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('orders.*') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
                 <span>Pesanan Masuk</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg transition-colors text-slate-300 hover:bg-slate-800 hover:text-white">
+            <a href="{{ route('transaksi.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('transaksi.*') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-clock-rotate-left w-5 text-center"></i>
                 <span>Riwayat Transaksi</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg transition-colors text-slate-300 hover:bg-slate-800 hover:text-white">
+            <a href="{{ route('pengaturan.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors {{ request()->routeIs('pengaturan.*') ? 'bg-orange-500 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-gear w-5 text-center"></i>
                 <span>Pengaturan</span>
             </a>
         </nav>
@@ -44,7 +55,8 @@
         <div class="p-4 border-t border-slate-700">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full flex items-center px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
                     <span>Keluar</span>
                 </button>
             </form>
