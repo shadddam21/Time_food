@@ -17,12 +17,14 @@ class MenuController extends Controller
         }
         
         $foods = $query->get();
+        $favorites = auth()->check() ? \DB::table('favorites')->where('user_id', auth()->id())->pluck('food_id')->toArray() : [];
 
-        return view('menu.index', compact('foods'));
+        return view('menu.index', compact('foods', 'favorites'));
     }
 
     public function show(Food $food)
     {
-        return view('menu.show', compact('food'));
+        $favorites = auth()->check() ? \DB::table('favorites')->where('user_id', auth()->id())->pluck('food_id')->toArray() : [];
+        return view('menu.show', compact('food', 'favorites'));
     }
 }

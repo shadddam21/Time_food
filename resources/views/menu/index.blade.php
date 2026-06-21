@@ -116,7 +116,8 @@
                                     </div>
                                     
                                     <!-- Favorite Button -->
-                                    <button @click.prevent="
+                                    <button @click.prevent.stop="
+                                        let btn = $el;
                                         fetch('{{ route('favorites.toggle', $food->id) }}', {
                                             method: 'POST',
                                             headers: {
@@ -125,14 +126,14 @@
                                             }
                                         }).then(res => res.json()).then(data => {
                                             if(data.status === 'added') {
-                                                $el.classList.add('text-red-500');
-                                                $el.classList.remove('text-slate-400');
+                                                btn.classList.add('text-red-500');
+                                                btn.classList.remove('text-slate-400');
                                             } else {
-                                                $el.classList.remove('text-red-500');
-                                                $el.classList.add('text-slate-400');
+                                                btn.classList.remove('text-red-500');
+                                                btn.classList.add('text-slate-400');
                                             }
-                                        })
-                                    " class="absolute top-4 right-4 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm transition-colors z-20">
+                                        }).catch(err => console.error(err));
+                                    " class="absolute top-4 right-4 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center {{ in_array($food->id, $favorites) ? 'text-red-500' : 'text-slate-400' }} hover:text-red-500 shadow-sm transition-colors z-20">
                                         <i class="fa-solid fa-heart text-xs pointer-events-none"></i>
                                     </button>
                                 </div>

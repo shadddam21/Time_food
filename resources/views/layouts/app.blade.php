@@ -60,7 +60,7 @@
                         <i class="fa-solid fa-receipt w-5 text-center text-lg"></i>
                         Pesanan Saya
                     </a>
-                    <a href="#" class="flex items-center gap-4 px-6 py-3 text-sm font-semibold text-slate-500 hover:text-orange-500 hover:bg-orange-50 transition-colors">
+                    <a href="{{ route('favorites.index') }}" class="flex items-center gap-4 px-6 py-3 text-sm font-semibold transition-colors {{ request()->routeIs('favorites.*') ? 'text-red-500 bg-red-50' : 'text-slate-500 hover:text-red-500 hover:bg-red-50' }}">
                         <i class="fa-solid fa-heart w-5 text-center text-lg"></i>
                         Favorit
                     </a>

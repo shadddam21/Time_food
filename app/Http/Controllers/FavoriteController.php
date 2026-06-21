@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
+    public function index()
+    {
+        $favorites = \DB::table('favorites')->where('user_id', auth()->id())->pluck('food_id')->toArray();
+        $foods = \App\Models\Food::whereIn('id', $favorites)->get();
+        return view('favorites.index', compact('foods', 'favorites'));
+    }
+
     public function toggle(Food $food)
     {
         $user = Auth::user();

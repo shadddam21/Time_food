@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:user'])->group(function () {
         Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
         Route::get('/menu/{food}', [MenuController::class, 'show'])->name('menu.show');
+        Route::get('/favorites', [\App\Http\Controllers\FavoriteController::class, 'index'])->name('favorites.index');
         Route::post('/favorites/{food}', [\App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle');
         Route::post('/foods/{food}/order', [OrderController::class, 'store'])->name('orders.store');
         Route::get('/checkout/{order}', [OrderController::class, 'checkout'])->name('orders.checkout');

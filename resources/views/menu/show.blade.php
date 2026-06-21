@@ -19,7 +19,8 @@
                             <i class="fa-solid fa-image text-6xl"></i>
                         </div>
                     @endif
-                    <button @click="
+                    <button @click.prevent.stop="
+                        let btn = $el;
                         fetch('{{ route('favorites.toggle', $food->id) }}', {
                             method: 'POST',
                             headers: {
@@ -28,14 +29,14 @@
                             }
                         }).then(res => res.json()).then(data => {
                             if(data.status === 'added') {
-                                $el.classList.add('text-red-500');
-                                $el.classList.remove('text-gray-400');
+                                btn.classList.add('text-red-500');
+                                btn.classList.remove('text-gray-400');
                             } else {
-                                $el.classList.remove('text-red-500');
-                                $el.classList.add('text-gray-400');
+                                btn.classList.remove('text-red-500');
+                                btn.classList.add('text-gray-400');
                             }
-                        })
-                    " class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 shadow-sm transition-colors z-20">
+                        }).catch(err => console.error(err));
+                    " class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center {{ in_array($food->id, $favorites) ? 'text-red-500' : 'text-gray-400' }} hover:text-red-500 shadow-sm transition-colors z-20">
                         <i class="fa-solid fa-heart pointer-events-none"></i>
                     </button>
                     <!-- Nav arrows -->
