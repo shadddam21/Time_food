@@ -23,11 +23,19 @@ class FoodController extends Controller
 
     public function create()
     {
+        if (!Auth::check() || Auth::user()->role !== 'restaurant') {
+            abort(403);
+        }
+
         return view('foods.create');
     }
 
     public function store(Request $request)
     {
+        if (!Auth::check() || Auth::user()->role !== 'restaurant') {
+            abort(403);
+        }
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
@@ -146,5 +154,6 @@ class FoodController extends Controller
         return redirect()
             ->route('foods.index')
             ->with('success', 'Status makanan berhasil diubah');
+    }
     }
 }

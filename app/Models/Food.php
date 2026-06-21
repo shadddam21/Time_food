@@ -24,7 +24,6 @@ class Food extends Model
         'pickup_time_end',
         'status'
     ];
-
     /**
      * Scope for customer page: active, in stock, and currently within pickup time
      */

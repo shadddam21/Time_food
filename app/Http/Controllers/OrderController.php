@@ -27,6 +27,20 @@ class OrderController extends Controller
     }
 
     /**
+     * Pesanan Saya — list semua order yang dilakukan oleh customer ini.
+     * Route: GET /my-orders  → name: my-orders.index
+     */
+    public function myOrders()
+    {
+        $orders = Order::with(['food'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('orders.index', compact('orders'));
+    }
+
+    /**
      * Detail satu pesanan (sisi restoran).
      * Route: GET /orders/{order}  → name: orders.show
      */
@@ -92,12 +106,12 @@ class OrderController extends Controller
     }
 
     /**
-     * Store — dipakai customer untuk checkout (sisi customer, bukan resto).
+     * Store — dipakai customer untuk checkout (sisi customer).
      * Route: POST /foods/{food}/order  → name: orders.store
      */
     public function store(Request $request, Food $food)
     {
-        // Fitur Checkout Sisi Customer (Basic Logic)
+        // Fitur Checkout Sisi Customer
         $request->validate([
             'qty' => 'required|integer|min:1'
         ]);
@@ -132,7 +146,6 @@ class OrderController extends Controller
             'status' => 'pending'
         ]);
 
-        // Nanti partner bisa arahkan route ke halaman detail pesanan customer
-        return redirect()->route('dashboard')->with('success', 'Pesanan berhasil dibuat');
+        return redirect()->route('my-orders.index')->with('success', 'Pesanan berhasil dibuat');
     }
 }

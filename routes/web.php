@@ -7,15 +7,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\MenuController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// Landing Page
+Route::get('/', function () {
+    if (auth()->check()) {
+        if (auth()->user()->role === 'restaurant') {
+            return redirect()->route('dashboard');
+        }
+        return redirect()->route('menu.index');
+    }
+    return view('welcome');
+})->name('home');
 
 // Login Restoran (custom page, redirect ke login biasa)
 Route::get('/restoran/login', function () {
-    if (auth()->check() && auth()->user()->role === 'restaurant') {
-        return redirect()->route('dashboard');
+    if (auth()->check()) {
+        return redirect('/');
     }
     return view('auth.login-restoran');
 })->name('login.restoran');
@@ -27,46 +35,31 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', [
-        DashboardController::class,
-        'index'
-    ])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource(
-        'foods',
-        FoodController::class
-    );
+    // Customer Routes
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::get('/menu/{food}', [MenuController::class, 'show'])->name('menu.show');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('my-orders.index');
+    Route::post('/foods/{food}/order', [OrderController::class, 'store'])->name('orders.store');
+
+    // Restaurant Routes
+    Route::resource('foods', FoodController::class);
     Route::match(['get', 'patch'], '/foods/{food}/toggle-status', [FoodController::class, 'toggleStatus'])->name('foods.toggleStatus');
 
-    // Routes sisi Restoran — Order Management
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-    // Riwayat Transaksi Restoran
     Route::get('/transaksi', [OrderController::class, 'transaksi'])->name('transaksi.index');
 
-    // Pengaturan Restoran
     Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
     Route::patch('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 
-    // Route customer checkout — akan diimplementasi oleh partner
-    // Route::post('/foods/{food}/order', [OrderController::class, 'store'])->name('orders.store');
-
-    Route::get(
-        '/profile',
-        [ProfileController::class, 'edit']
-    )->name('profile.edit');
-
-    Route::patch(
-        '/profile',
-        [ProfileController::class, 'update']
-    )->name('profile.update');
-
-    Route::delete(
-        '/profile',
-        [ProfileController::class, 'destroy']
-    )->name('profile.destroy');
+    // Profile Routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
