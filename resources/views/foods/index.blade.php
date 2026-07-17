@@ -103,6 +103,11 @@
                     {{-- Aksi --}}
                     <td class="px-6 py-4">
                         <div class="flex items-center justify-center gap-2">
+                            <a href="{{ route('foods.show', $food->id) }}"
+                                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-100 flex items-center justify-center text-slate-500 hover:text-blue-600 transition-colors"
+                                title="Lihat Ulasan">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                            </a>
                             <a href="{{ route('foods.edit', $food->id) }}"
                                 class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-orange-100 flex items-center justify-center text-slate-500 hover:text-orange-600 transition-colors"
                                 title="Edit">

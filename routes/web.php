@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/checkout/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
         Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('my-orders.index');
         Route::get('/my-orders/{order}', [OrderController::class, 'myOrderDetail'])->name('my-orders.show');
+        Route::post('/review',[\App\Http\Controllers\ReviewController::class,'store'])->name('review.store');
     });
 
     // Restaurant Routes

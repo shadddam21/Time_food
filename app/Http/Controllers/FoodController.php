@@ -80,6 +80,17 @@ class FoodController extends Controller
         }
     }
 
+    public function show(Food $food)
+    {
+        if ($food->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $food->load(['reviews.user']); // Load reviews and their users
+
+        return view('foods.show', compact('food'));
+    }
+
     public function edit(Food $food)
     {
         if ($food->user_id !== Auth::id()) {

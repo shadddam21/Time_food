@@ -32,7 +32,7 @@ class OrderController extends Controller
      */
     public function myOrders()
     {
-        $orders = Order::with(['food'])
+        $orders = Order::with(['food', 'review'])
             ->where('user_id', Auth::id())
             ->latest()
             ->get();

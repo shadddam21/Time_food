@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class Review extends Model  
 {
     protected $fillable = [
         'user_id',
         'food_id',
-        'qty',
-        'total',
-        'pickup_code',
-        'status'
+        'order_id',
+        'rating',
+        'ulasan'
     ];
 
-    public function review()
+    public function user()
     {
-        return $this->hasOne(\App\Models\review::class);
+        return $this->belongsTo(User::class);
     }
 
     public function food()
@@ -25,8 +24,8 @@ class Order extends Model
         return $this->belongsTo(Food::class);
     }
 
-    public function user()
+    public function order()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
     }
 }
